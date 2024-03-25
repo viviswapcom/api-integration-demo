@@ -1,11 +1,13 @@
+require('dotenv').config()
 const ApiToken = require('./api-token.util');
-
 const axios = require('axios');
 
 module.exports = class ApiClient {
 
     static get API_URL () {
-        return 'https://api-service.viviswap.com'
+        return process.env.API_ENVIRONMENT !== 'production' 
+            ? 'https://api-service-dev.viviswap.com'
+            : 'https://api-service.viviswap.com';
     }
 
     _createHeaders (requestBody = {}, requestQueries = {}) {

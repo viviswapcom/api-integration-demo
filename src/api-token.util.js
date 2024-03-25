@@ -10,10 +10,14 @@ module.exports = class ApiToken {
                 'requestBody': !!requestBody && Object.keys(requestBody).length > 0 ? requestBody : undefined,
                 'requestQueries': !!requestQueries && Object.keys(requestQueries).length > 0 ? requestQueries : undefined,
             },
-            receiver: 'ApiService', // required
+            receiver: process.env.API_ENVIRONMENT !== 'production'
+                ? 'ApiServiceDev'
+                : 'ApiService', // required
         }, process.env.API_SECRET, { 
             algorithm: 'HS512',
-            audience: 'viviswap', // required
+            audience: process.env.API_ENVIRONMENT !== 'production'
+                ? 'viviswap-test'
+                : 'viviswap', // required
             issuer: '@viviswapcom/api-integration-demo', // replace with your custom value
             // maxAge: String(expirationDate), // 1 minute validity
         });
