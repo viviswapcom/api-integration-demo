@@ -37,14 +37,20 @@ module.exports = class ApiClient {
         return axios.post(`${ApiClient.API_URL}${path}${queryString}`, requestBody, { headers });
     }
 
+    async put (path, requestBody = {}, requestQueries = {}) {
+        const headers = this._createHeaders(requestBody, requestQueries);
+        const queryString = this._prepareRequestQueries(requestQueries);
+        return axios.put(`${ApiClient.API_URL}${path}${queryString}`, requestBody, { headers });
+    }
+
     async patch (path, requestBody = {}, requestQueries = {}) {
         const headers = this._createHeaders(requestBody, requestQueries);
         const queryString = this._prepareRequestQueries(requestQueries);
         return axios.patch(`${ApiClient.API_URL}${path}${queryString}`, requestBody, { headers });
     }
 
-    async delete (path, requestBody = {}, requestQueries = {}) {
-        const headers = this._createHeaders(requestBody, requestQueries);
+    async delete (path, requestQueries = {}) {
+        const headers = this._createHeaders({}, requestQueries);
         const queryString = this._prepareRequestQueries(requestQueries);
         return axios.delete(`${ApiClient.API_URL}${path}${queryString}`, { headers });
     }
